@@ -2,11 +2,14 @@
 # API method adapted from phiTool, Copyright (C) 2026 Chnynnya.
 # TapTap Phigros APK link resolver for Windows PowerShell 5.1+.
 # Based on the TapTap API method documented by kckc7887/phiTool.
-# Prints the link only. This script never downloads an APK.
+# Only queries the API and prints a link. No file operations or options.
 
 $ErrorActionPreference = "Stop"
 
 try {
+    if ($args.Count -ne 0) {
+        throw "No command-line options are supported. This script only prints the APK URL."
+    }
     $uid = [guid]::NewGuid().ToString()
     $xua = "V=1&PN=TapTap&VN=2.40.1-rel.100000&VN_CODE=240011000&LOC=CN&LANG=zh_CN&CH=default&UID=$uid&NT=1&SR=1080x2030&DEB=Xiaomi&DEM=Redmi+Note+5&OSV=9"
     $encoded = [uri]::EscapeDataString($xua)

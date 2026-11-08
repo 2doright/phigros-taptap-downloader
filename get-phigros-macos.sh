@@ -1,8 +1,13 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-3.0-or-later
-# TapTap Phigros APK URL resolver (macOS). Prints the link; downloads nothing.
+# TapTap Phigros APK URL resolver (macOS). Query and print only.
 # API method: https://github.com/kckc7887/phiTool
 set -eu
+
+if [ "$#" -ne 0 ]; then
+    printf 'No command-line options are supported. This script only prints the APK URL.\n' >&2
+    exit 2
+fi
 
 for tool in curl perl openssl uuidgen tr sed date; do
     if ! command -v "$tool" >/dev/null 2>&1; then
