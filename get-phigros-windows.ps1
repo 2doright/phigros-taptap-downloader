@@ -2,12 +2,7 @@
 # API method adapted from phiTool, Copyright (C) 2026 Chnynnya.
 # TapTap Phigros APK link resolver for Windows PowerShell 5.1+.
 # Based on the TapTap API method documented by kckc7887/phiTool.
-
-[CmdletBinding()]
-param(
-    [switch]$Download,
-    [string]$OutputDirectory = "."
-)
+# Prints the link only. This script never downloads an APK.
 
 $ErrorActionPreference = "Stop"
 
@@ -42,21 +37,6 @@ try {
 
     Write-Output "Version: $version"
     Write-Output "APK URL: $url"
-
-    if ($Download) {
-        $directory = [IO.Path]::GetFullPath($OutputDirectory)
-        if (-not (Test-Path -LiteralPath $directory -PathType Container)) {
-            throw "Output directory does not exist: $directory"
-        }
-        $safeVersion = $version -replace '[^0-9A-Za-z._-]', '_'
-        $destination = Join-Path $directory "Phigros-TapTap-$safeVersion.apk"
-        if (Test-Path -LiteralPath $destination) {
-            throw "File already exists. Move or rename it first: $destination"
-        }
-        Write-Output "Downloading to: $destination"
-        Invoke-WebRequest -Uri $url -OutFile $destination -UseBasicParsing -TimeoutSec 0
-        Write-Output "Saved: $destination"
-    }
 } catch {
     Write-Error "Failed: $($_.Exception.Message)"
     exit 1
